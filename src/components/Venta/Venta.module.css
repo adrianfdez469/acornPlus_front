@@ -1,0 +1,41 @@
+.Venta {
+    height: 100%;
+    width: 100%;
+    
+}
+
+.PanelIzq {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35%;
+    height: 100%;
+    background-color: white;
+    margin: 0 0 0 -2px;
+    border: 1px solid black;
+}
+
+.PanelDer {
+    position: absolute;
+    top: 0;
+    left: 35%;
+    width: 65%;
+    height: 100%;
+    background-color: white;
+}
+
+.PanelDer .Arriba {
+    border: 1px solid black;
+    height: 50%;
+    position: static;
+    margin: 0 0 0 -1px;
+}
+
+.PanelDer .Abajo {
+    border: 1px solid blue;
+    background-color: blue;
+    overflow: auto;
+    height: 50%;
+    position: static;
+    margin: 0 0 0 -1px;
+}

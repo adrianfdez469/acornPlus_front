@@ -1,0 +1,71 @@
+.Ubicacion {
+    width: 80px;
+    height: 60px;
+    border: 2px solid black;
+    border-radius: 5px;    
+    text-align: center;
+    color: #dddddd;
+    position: absolute;
+    background: rgb(247, 241, 240);
+    color: black;
+    padding-top: 5px;
+    box-shadow: 0 3px 10px rgb(180, 180, 180);    
+
+    transition-timing-function: ease;
+    transition: width 0.2s, height 0.2s, transform 0.08s;
+}
+
+.notificarUbicacion {
+    animation-name: notificacionUbicacion;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.notificarPIll {
+    animation-name: notificacionPill;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.Disponible {
+    background-color: green;
+}
+
+.Ocupado {
+    background-color: coral;
+}
+
+.SobreOcupado {
+    background-color: red;
+}
+
+@keyframes notificacionPill {
+    50% {transform: rotate(30deg);}
+    100% {transform: rotate(-30deg);}
+    
+}
+@keyframes notificacionUbicacion {
+    50% {box-shadow: 0 3px 30px rgb(180, 180, 180);}
+    100% {box-shadow: 0 3px 10px rgb(180, 180, 180);}
+}
+
+.Pill {
+    position: absolute;
+    border: 1px solid black;
+    color: white;
+    border-radius: 20px;
+    padding: 0px 5px;
+    top: -10px;
+    right: -20px;
+    box-shadow: 0 3px 4px black;
+}
+
+.Ubicacion:hover {
+    box-shadow: 0 3px 10px #ffe3e3;       
+    cursor: pointer; 
+    
+}
+
+

@@ -1,0 +1,61 @@
+.header {
+	position: fixed;
+	display: block;
+	top:0;
+	background-color: rgb(20,110,150);
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+	height: 45px;
+}
+
+button.flotante {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 0;
+	position: fixed;
+	background-color: rgb(0,184,212);;
+	cursor: pointer;
+	box-shadow: 1px 2px 2px black;
+}
+
+button.carrito {	
+	right: 2%;
+	margin: 5px 10px;
+}
+button.carrito::before {
+	font-family: iconitos;
+	content: "\e93a";
+	color: white;
+	font-size: 1.2em;
+
+}
+
+.drawerToggled {
+	position: absolute;
+	flex: left;
+	width: 35px;
+	height: 35px;
+	border-radius: 7px;
+	border: 0;
+	background-color: rgb(0,184,212);
+	flex-flow: column;
+	justify-content: space-around;
+    align-items: center;
+    margin: 5px 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 7px 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    box-shadow: 1px 2px 2px black;
+}
+
+
+.drawerToggled div {
+	width: 70%;
+    height: 2px;
+    background-color: white;
+}
