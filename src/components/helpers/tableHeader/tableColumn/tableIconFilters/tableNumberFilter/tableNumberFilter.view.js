@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem, Checkbox, Input, InputAdornment, Divider
+    Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem, Checkbox, Input, InputAdornment
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import GreaterThanIcon from '@material-ui/icons/ArrowForwardIos';

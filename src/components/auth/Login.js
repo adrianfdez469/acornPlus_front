@@ -93,6 +93,12 @@ const Login = props => {
             });
     } 
 
+    const keyPressInPasswordInput = event => {
+        if(event.key === 'Enter'){
+            loginAction();
+        }
+    }
+
     return (
             <Dialog open>
                 <DialogTitle>LOGIN</DialogTitle>
@@ -124,6 +130,7 @@ const Login = props => {
                                 inputRef={userPassRef} 
                                 error={isPassInvalid} 
                                 required
+                                onKeyPress={keyPressInPasswordInput}
                             />
                         </Grid>
                         <Grid item>

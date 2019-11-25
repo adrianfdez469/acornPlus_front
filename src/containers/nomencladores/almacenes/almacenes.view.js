@@ -23,7 +23,7 @@ const NomAlmacenes = props => {
                     autoFocus: true
                 },
                 validator: val => validate(val, 
-                        validator.STRING.SIZE.minLenght(2),
+                        validator.STRING.SIZE.minLenght(3),
                         validator.STRING.SIZE.maxLenght(50),
                         validator.REQUIERED
                     )
@@ -58,6 +58,7 @@ const NomAlmacenes = props => {
             relativePath={relativePath}
             tableColumns={columns}
             idioma={idioma}
+            mainSearchForColumn='nombre'
         />
     );
 

@@ -23,7 +23,8 @@ const GenericForm = props => {
         editing,
         formState,
         onChange,
-        titulo
+        titulo,
+        validForm
     } = props;
 
     
@@ -33,7 +34,7 @@ const GenericForm = props => {
 
     return (
         <Dialog open={open} onClose={close} maxWidth='xs'>
-<DialogTitle>{editing ? 'Editar' : 'Adicionar'} {titulo}</DialogTitle>
+            <DialogTitle>{editing ? 'Editar' : 'Adicionar'} {titulo}</DialogTitle>
             <DialogContent>
                 {
                     fields.map(field => {
@@ -50,7 +51,12 @@ const GenericForm = props => {
                 }
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleSave} color="primary" variant='contained'>
+                <Button 
+                    onClick={handleSave} 
+                    color="primary" 
+                    variant='contained'
+                    disabled={!validForm}
+                >
                     Guardar
                 </Button>
             </DialogActions>
@@ -71,7 +77,8 @@ GenericForm.propTypes = {
     }).isRequired).isRequired,
 
     formState: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    validForm: PropTypes.bool.isRequired
 
 }
 

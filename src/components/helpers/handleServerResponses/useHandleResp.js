@@ -1,4 +1,4 @@
-import React, { useContext} from 'react';
+import { useContext} from 'react';
 import useMessage from '../../UI/Snackbar/useMessage';
 import authActions from '../../auth/authActions';
 import AuthContext from '../../auth/authContext';
@@ -24,6 +24,11 @@ const errorsResp = {
     422: {
         mensaje: () => 'Datos de entrada no válidos',
         detalles: details => details,
+        action: () => {}
+    },
+    500: {
+        mensaje: () => 'Ocurrió un error interno',
+        detalles:  details => details,
         action: () => {}
     }
 }

@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    makeStyles,
     Table,
     TableBody,
     TableRow,
     TableCell,
     Paper,
-    IconButton,
-    Tooltip,
-    Fab
+    IconButton
 } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -22,26 +19,12 @@ import CustomTableToolbar from '../../../components/helpers/tableToolbar';
 import CustomTableHeader from '../../../components/helpers/tableHeader';
 import CustomTablePagination from '../../../components/helpers/tablePagination';
 import uiDataTypes from '../uiDataTypes';
-
+import InfoTooltip from '../infoTooltip';
 
 import GenericForm from './genericForm';
 
 
-
-const useStyles = makeStyles(theme => ({
-    color: {
-        //display: 'inline-block',
-        width: '30px',
-        height: '30px', 
-        borderRadius: '50%'
-    }
-}));
-
-
-
 const GenericCRUD = props => {
-
-    const classes = useStyles();
 
     const {
         titulo,
@@ -136,10 +119,12 @@ const GenericCRUD = props => {
                                                 >
                                                     {col.render ? col.render(obj, col) : obj[col.mappedBy]}
                                             </TableCell>
+                                        }else{
+                                            return null;
                                         }
                                     })}
                                     <TableCell padding='checkbox'>
-                                        <Tooltip title='Eliminar'>
+                                        <InfoTooltip title='Eliminar'>
                                             <IconButton 
                                                 
                                                 style={{padding: '5px'}}
@@ -147,17 +132,17 @@ const GenericCRUD = props => {
                                             >
                                                 <DeleteIcon color='primary'/>
                                             </IconButton>
-                                        </Tooltip>
+                                        </InfoTooltip>
                                     </TableCell>
                                     <TableCell padding='checkbox'>
-                                        <Tooltip title='Modificar'>
+                                        <InfoTooltip title='Modificar'>
                                             <IconButton
                                                 style={{padding: '5px'}}
                                                 onClick={() => startEditing(obj)}
                                             >
                                                 <EditIcon color='primary'/>
                                             </IconButton>
-                                        </Tooltip>
+                                        </InfoTooltip>
                                     </TableCell>
                                 </TableRow>
                             );

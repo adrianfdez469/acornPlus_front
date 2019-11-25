@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import GenericFormView from './genericForm.view';
-import AlertContext from '../../../UI/Alerts/context/alert.context';
 
 const GenericForm = props => {
 
@@ -26,10 +25,30 @@ const GenericForm = props => {
         }, {}); 
 
     const [formState, setFormState] = useState(initialFormState);
+    const [validForm, setValidForm] = useState(false);
 
     useEffect(() => {
         setFormState(initialFormState);
     }, [open]);
+
+    useEffect(() => {
+        let valid = true;
+        let atLeastOneInputDirty = false;
+        fields.forEach(f => {
+            if(f.validator){
+                let campoValido = true;
+                if(valid){
+                    campoValido = f.validator(formState[f.mappedBy].value);
+                }
+                valid = valid && campoValido;
+            }
+            if(formState[f.mappedBy].dirty){
+                atLeastOneInputDirty = true;
+            }
+        });
+        
+        setValidForm(valid && atLeastOneInputDirty);
+    }, [formState]);
 
     const onChangeFormState = (mappedKey, value) => {
         setFormState(oldState => {
@@ -54,10 +73,6 @@ const GenericForm = props => {
         if(edit){
             objToSave.id = edit.id;
         }
-
-        alert('TODO: Falta correr las validaciones de todos los componentes antes de salvar');
-        alert('Tambien se puede desabilitar el boton guardar mientras el folmulario sea invalido o no tenga cambios realizados');
-
         onSave(objToSave);
         close();
     }
@@ -72,6 +87,7 @@ const GenericForm = props => {
             formState={formState}
             onChange={onChangeFormState}
             titulo={titulo}
+            validForm={validForm}
         />
     );
 
@@ -79,13 +95,7 @@ const GenericForm = props => {
 }
 
 GenericForm.propTypes = {
-    edit: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        nombre: PropTypes.string.isRequired,
-        descripcion: PropTypes.string,
-        orden: PropTypes.number.isRequired,
-        color: PropTypes.string.isRequired
-    }),
+    edit: PropTypes.object,
     onSave: PropTypes.func.isRequired
 }
 

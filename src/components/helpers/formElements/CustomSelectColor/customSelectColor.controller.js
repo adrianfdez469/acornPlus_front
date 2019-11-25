@@ -5,7 +5,6 @@ const CustomSelectColor = props => {
 
     const {
         customProps,
-        fieldName,
         state,
         onChange
     } = props;

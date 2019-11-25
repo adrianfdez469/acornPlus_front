@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-    Tooltip,
     IconButton
 } from '@material-ui/core';
 
 import FilterListIcon from '@material-ui/icons/FilterList';
 import SearchPopperFactory from './tableFiltersFactory';
+import InfoTooltip from '../../../infoTooltip';
 
 
 
@@ -16,7 +16,7 @@ const TableIconFilter = props => {
 
     return (
         <>
-            <Tooltip title='Filtro avanzado'>
+            <InfoTooltip title='Filtro avanzado'>
                 <IconButton 
                     size='small'
                     onClick={() => handleShow(true)}
@@ -25,7 +25,7 @@ const TableIconFilter = props => {
                 >
                     <FilterListIcon />
                 </IconButton>
-            </Tooltip>
+            </InfoTooltip>
             <SearchPopperFactory 
                 {...props} 
                 setFilter={setFilter} 

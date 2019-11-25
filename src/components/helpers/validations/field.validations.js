@@ -1,6 +1,6 @@
 
 export const validator = {
-    REQUIERED: val =>  (val && val !== ''),
+    REQUIERED: val =>  (val !== ''),
     STRING: {
         SIZE: {
             minLenght: n => val => val.length >= n,

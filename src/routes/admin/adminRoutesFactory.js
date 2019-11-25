@@ -5,12 +5,8 @@ import React, { Suspense } from 'react';
 const AsyncNomCategoria = React.lazy(() => import('../../containers/nomencladores/categorias/categoria.view'));
 const AsyncNomMoneda = React.lazy(() => import('../../containers/nomencladores/monedas/moneda.view'));
 const AsyncNomAlmacen = React.lazy(() => import('../../containers/nomencladores/almacenes/almacenes.view'));
-/*const _NOM_ = {
-    path: '/admin/nom',
-    getCmp: () => {
-        return <Nomencladores />
-    }
-}*/
+const AsyncNomTipodescuento = React.lazy(() => import('../../containers/nomencladores/tipodescuento/tipodescuento.view'));
+
 const _NOM_CATEGORIA_ = {
     path: '/admin/nom/categoria',
     getCmp: () => {
@@ -37,6 +33,15 @@ const _NOM_ALMACEN_ = {
     }
 }
 
+const _NOM_TIPO_DESCUENTO_ = {
+    path: '/admin/nom/tipodescuento',
+    getCmp: () => {
+        return  <Suspense fallback="Cargando...">                    
+                    <AsyncNomTipodescuento />
+                </Suspense>
+    }
+}
+
 
 export default (nameid)=> {
     switch(nameid){
@@ -46,6 +51,7 @@ export default (nameid)=> {
             case 'nom_categoria': return _NOM_CATEGORIA_;
             case 'nom_moneda': return _NOM_MONEDA_;
             case 'nom_almacen': return _NOM_ALMACEN_;
+            case 'nom_tipodescuento': return _NOM_TIPO_DESCUENTO_;
         
         //case 'conf': return '/admin/conf';
         

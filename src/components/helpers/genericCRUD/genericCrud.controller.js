@@ -126,7 +126,7 @@ const GenericCRUD = props => {
                 }
             })
             .catch(err => {
-                console.log(err.response);
+                console.log(err.response);                
                 if(err.response)
                     showError(err.response.status, `${idioma.concepto}`, err.response.data.message);
                 else
@@ -208,7 +208,10 @@ const GenericCRUD = props => {
             })
             .catch(err => {
                 console.log(err);
-                showError(err.response.status, idioma.concepto, err.response.data.message);
+                if(err.response)
+                    showError(err.response.status, idioma.concepto, err.response.data.message);
+                else
+                    showMessage('error', 'Ocurrió un error interno');
             });
         }
 
