@@ -18,6 +18,7 @@ const TableTextFilter = (props) => {
             transition 
             disablePortal
             onMouseLeave={() => handleShow(false)}
+            style={{width:'300px'}}
             
         >
             {
