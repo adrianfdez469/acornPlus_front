@@ -1,3 +1,6 @@
+Una vez que se tenga el proyecto corriendo entar a la url http://loalhost:3000/admin e ingresar con admin admin.
+Para esto tienen que tener el proyecto del backend corriendo en http://localhost:8080
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
