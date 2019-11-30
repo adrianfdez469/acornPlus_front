@@ -18,24 +18,24 @@ import {FormElementsType} from '../formElements'
  * @param {relativePath, tableColumns, idioma, mainSearchForColumn} props 
  * @param tableColumns { 
  *      header: string,
-        dataType: uiDataTypes.any,
-        mappedBy: string,
-        sorteable: bool,
-        filterable: bool,
-        props: {
-            align: ['left', 'center', 'rigth'][any]
-        },
-        formElement: {
-            type: FormElementsType,
-            initialValue: [
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.bool
-            ][any],
-            customProps: object,
-            validator: func
-        },
-        render: func
+ *      dataType: uiDataTypes.any,
+ *       mappedBy: string,
+ *       sorteable: bool,
+ *       filterable: bool,
+ *       props: {
+ *           align: ['left', 'center', 'rigth'][any]
+ *       },
+ *       formElement: {
+ *           type: FormElementsType,
+ *           initialValue: [
+ *               PropTypes.string,
+ *               PropTypes.number,
+ *               PropTypes.bool
+ *           ][any],
+ *           customProps: object,
+ *           validator: func
+ *       },
+ *       render: func
  *  }
  * 
  */
@@ -133,8 +133,6 @@ const GenericCRUD = props => {
         });
         
     }
-
-    
 
     const handleSave = data => {
         if(editing === null){
@@ -247,15 +245,6 @@ const GenericCRUD = props => {
     
     
     const startEditing = obj => {
-        
-        /*const editObj = tableColumns.reduce((acum, o) => {
-            acum[o.mappedBy] = obj[o.mappedBy];
-            return acum;
-        }, {id: obj.id});*/
-
-        //console.log(editObj);
-        
-        //const editObj = obj;
         
         setEditing(obj);
         setWinState(true);

@@ -26,4 +26,4 @@ const Header = ({openMenu}) => {
     );
 }
 
-export default Header;
+export default React.memo(Header);

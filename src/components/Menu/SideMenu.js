@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SideMenu = props => {
+const SideMenu = React.memo(props => {
 
     const {state, close} = props;
     const [authState, dispatch] = useContext(authContext);
@@ -93,6 +93,6 @@ const SideMenu = props => {
             {sideList}
         </Drawer>
     );
-}
+});
 
 export default withRouter(SideMenu);

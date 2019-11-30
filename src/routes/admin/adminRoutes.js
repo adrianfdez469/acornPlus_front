@@ -27,4 +27,4 @@ const AdminRoutes = props => {
     return routes;
 }
 
-export default AdminRoutes;
+export default React.memo(AdminRoutes);

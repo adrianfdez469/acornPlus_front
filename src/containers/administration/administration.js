@@ -23,8 +23,6 @@ const Admin = props => {
     const handleError = useError();
 
     useEffect( () => {
-        //const id = localStorage.getItem('userId');
-        //const name = localStorage.getItem('userName');
         const token = localStorage.getItem('token');
         const expDateStorage = localStorage.getItem('expDate');
 
@@ -89,8 +87,8 @@ const Admin = props => {
     
     const elements = (authState && authState.actions) ? 
     <>
-        <Header openMenu={() => setMenuOpen(true)} />
-        <SideMenu state={menuOpen} close={() => setMenuOpen(false)}/>
+        <Header openMenu={setMenuOpen.bind(this, true)} />
+        <SideMenu state={menuOpen} close={setMenuOpen.bind(this, false)}/>
         <AdminRoutes actions={authState.actions} />
     </> : <Login />
         
@@ -104,4 +102,4 @@ const Admin = props => {
 
 }
 
-export default Admin;
+export default React.memo(Admin);
