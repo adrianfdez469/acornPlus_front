@@ -296,7 +296,7 @@ GenericCRUD.propTypes = {
                 PropTypes.bool
             ]),
             customProps: PropTypes.object,
-            validator: PropTypes.func
+            validator: PropTypes.func            
         }),
         render: PropTypes.func
     })).isRequired,

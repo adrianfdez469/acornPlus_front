@@ -24,7 +24,8 @@ const GenericForm = props => {
         formState,
         onChange,
         titulo,
-        validForm
+        validForm,
+        url
     } = props;
 
     
@@ -40,9 +41,11 @@ const GenericForm = props => {
                     fields.map(field => {
                         return <FormElement 
                             key={field.mappedBy}
-                            type={field.type}                            
+                            /*type={field.type}                            
                             customProps={field.customProps}                            
                             fieldName={field.fieldName}
+                            url={field.url}*/
+                            {...field}
                             
                             state={formState[field.mappedBy]}
                             onChange={(value) => onChange(field.mappedBy, value)}
@@ -73,7 +76,7 @@ GenericForm.propTypes = {
         mappedBy: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         customProps: PropTypes.object,
-        fieldName: PropTypes.string.isRequired
+        fieldName: PropTypes.string.isRequired,        
     }).isRequired).isRequired,
 
     formState: PropTypes.object.isRequired,

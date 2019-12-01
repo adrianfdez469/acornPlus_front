@@ -7,34 +7,37 @@ import CustomInputText from './CustomInputText';
 import CustomInputNumber from './CustomInputNumber';
 import CustomSwitch from './CustomSwitch';
 import CustomSelectColor from './CustomSelectColor';
-
-
-
-
+import CustomSingleSelect from './CusomSingleSelect';
 
 
 const FormElemntFactory = props => {
 
     const {
         type,
-        fieldName,
+    /*    fieldName,
         customProps,
         state,
-        onChange
+        onChange*/
     } = props;
 
-    const propsToElement = {
+    /*const propsToElement = {
         fieldName,
         customProps,
         state,
         onChange
-    };
+    };*/
 
     switch(type){
-        case formElementTypes.TEXT_FIELD: return <CustomInputText {...propsToElement} />;
+        /*case formElementTypes.TEXT_FIELD: return <CustomInputText {...propsToElement} />;
         case formElementTypes.NUMBER_FIELD: return <CustomInputNumber {...propsToElement} />;
         case formElementTypes.SWITCH_FIELD: return <CustomSwitch  {...propsToElement} />;
         case formElementTypes.COLOR_PICKER: return <CustomSelectColor  {...propsToElement} />;
+        case formElementTypes.SINGLE_SELECT_FIELD: return <CustomSingleSelect {...propsToElement} />;*/
+        case formElementTypes.TEXT_FIELD: return <CustomInputText {...props} />;
+        case formElementTypes.NUMBER_FIELD: return <CustomInputNumber {...props} />;
+        case formElementTypes.SWITCH_FIELD: return <CustomSwitch  {...props} />;
+        case formElementTypes.COLOR_PICKER: return <CustomSelectColor  {...props} />;
+        case formElementTypes.SINGLE_SELECT_FIELD: return <CustomSingleSelect {...props} />;
         default: return null;
     }
 }
@@ -44,7 +47,8 @@ FormElemntFactory.propTypes = {
     fieldName: PropTypes.string.isRequired,
     customProps: PropTypes.object,
     state: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    url: PropTypes.string
 }
 
 export default FormElemntFactory

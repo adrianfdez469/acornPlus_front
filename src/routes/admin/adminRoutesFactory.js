@@ -1,13 +1,23 @@
 import React, { Suspense } from 'react';
 
 
-//import Nomencladores from '../../containers/nomencladores/ListadoNomencladores';
+
+const AsyncNomUsuario = React.lazy(() => import('../../containers/seguridad/usuario'));
 const AsyncNomCategoria = React.lazy(() => import('../../containers/nomencladores/categorias/categoria.view'));
 const AsyncNomMoneda = React.lazy(() => import('../../containers/nomencladores/monedas/moneda.view'));
 const AsyncNomAlmacen = React.lazy(() => import('../../containers/nomencladores/almacenes/almacenes.view'));
 const AsyncNomTipodescuento = React.lazy(() => import('../../containers/nomencladores/tipodescuento/tipodescuento.view'));
 const AsyncNomUnidadmedida = React.lazy(() => import('../../containers/nomencladores/unidadmedida/unidadmedida.view'));
 const AsyncNomProveedor = React.lazy(() => import('../../containers/nomencladores/proveedor/proveedor.view'));
+
+const _NOM_USUARIO_ = {
+    path: '/admin/security/usuario',
+    getCmp: () => {
+        return  <Suspense fallback="Cargando...">
+                    <AsyncNomUsuario />
+                </Suspense>
+    }
+}
 
 const _NOM_CATEGORIA_ = {
     path: '/admin/nom/categoria',
@@ -17,6 +27,7 @@ const _NOM_CATEGORIA_ = {
                 </Suspense>
     }
 }
+
 const _NOM_MONEDA_ = {
     path: '/admin/nom/moneda',
     getCmp: () => {
@@ -66,6 +77,7 @@ const _NOM_PROVEEDOR_ = {
 export default (nameid)=> {
     switch(nameid){
         //case 'seg': return {};
+            case 'nom_usuario': return _NOM_USUARIO_;
         
         //case 'nom': return _NOM_;
             case 'nom_categoria': return _NOM_CATEGORIA_;

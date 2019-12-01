@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import GenericFormView from './genericForm.view';
 
 const GenericForm = props => {
+console.log(props);
 
     const {
         open,
@@ -11,7 +12,8 @@ const GenericForm = props => {
         onSave,
         fields,
         edit,
-        titulo
+        titulo,
+        url
     } = props;
 
     const initialFormState = fields
