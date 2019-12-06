@@ -18,20 +18,14 @@ const GenericForm = props => {
     const {
         open,
         close,
-        handleSave,
+        handleAccept,
         fields,
         editing,
         formState,
         onChange,
         titulo,
-        validForm,
-        url
+        validForm
     } = props;
-
-    
-
-    
-
 
     return (
         <Dialog open={open} onClose={close} maxWidth='xs'>
@@ -55,7 +49,7 @@ const GenericForm = props => {
             </DialogContent>
             <DialogActions>
                 <Button 
-                    onClick={handleSave} 
+                    onClick={handleAccept} 
                     color="primary" 
                     variant='contained'
                     disabled={!validForm}

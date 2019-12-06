@@ -47,7 +47,8 @@ TableColumn.propTypes = {
         sorteable: PropTypes.bool.isRequired,
         header: PropTypes.string.isRequired,
         filterable: PropTypes.bool.isRequired,
-        mappedBy: PropTypes.string.isRequired
+        mappedBy: PropTypes.string.isRequired,
+        props: PropTypes.object
     }).isRequired,
 
 };

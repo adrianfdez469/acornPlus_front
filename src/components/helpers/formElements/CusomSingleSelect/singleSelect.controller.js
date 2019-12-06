@@ -5,9 +5,11 @@ import SingleSelectView from './singleSelect.view';
 
 import AuthContext from '../../../auth/authContext';
 import axios from '../../../../axios';
+import validate from '../../validations/field.validations';
 
 const SingleSelect = props => {
 
+    const {state, onChange} = props;
     const { url, reader} = props.customProps;
     const {mapValue, mapDisplayField} = reader;
 
@@ -25,8 +27,7 @@ const SingleSelect = props => {
             }
         })
         .then(resp => {
-            if(resp.status === 200){
-                
+            if(resp.status === 200){                
                 const respOptions = resp.data.rows.map(opt => {
                     return {
                         key: opt[mapValue],
@@ -43,8 +44,14 @@ const SingleSelect = props => {
         });        
     }, [authState.token, mapDisplayField, mapValue, url]);
 
+    const handleChange = (event) => {
+        onChange(event.target.value);
+    };
+
     return <SingleSelectView 
         options={options}
+        handleChange={handleChange}
+        value={state}
         {...props}
     />;
 

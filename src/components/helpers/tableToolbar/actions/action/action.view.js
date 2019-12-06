@@ -9,18 +9,21 @@ import styles from './action.styles';
 
 const Action = props => {
 
-    const {clickHandler, icon, description, classes} = props;
+    const {clickHandler, icon, description, classes, cmp} = props;
 
-    return <InfoTooltip title={description}>
-        <Fab
-            color='primary'
-            onClick={clickHandler}
-            size='medium'
-            className={classes.styles}
-        >
-            {icon}
-        </Fab>
-    </InfoTooltip>
+    return <>
+        <InfoTooltip title={description}>
+            <Fab
+                color='primary'
+                onClick={clickHandler}
+                size='medium'
+                className={classes.styles}
+            >
+                {icon}
+            </Fab>
+        </InfoTooltip>
+        {cmp}
+    </>
 }
 
 Action.propTypes = {

@@ -34,7 +34,6 @@ const GenericCRUD = props => {
         mainFilterHandler,
         clearMainFilter,
         columnFilterHandler,
-        filters,
         disableColumnFilters,
         columnOrdersHandler,
         rows,
@@ -46,7 +45,8 @@ const GenericCRUD = props => {
         winState,
         closeWinHandler,
         handleSave,
-        editing
+        editing,
+        defaultActions = true
     } = props;
     
     const cols = [...columns];
@@ -66,15 +66,41 @@ const GenericCRUD = props => {
         filterable: false
     };
     
-    const actions = [
+
+    const actions = (defaultActions) ? [
         {
             clickHandler: openWinHandler,
             icon: <AddIcon />,
-            description: 'Adicionar categoría'
+            description: `Adicionar ${titulo}`,
+            
+            cmp: <GenericForm 
+                titulo={titulo}
+                open={winState} 
+                close={closeWinHandler} 
+                onAccept={handleSave}
+                edit={editing}
+                fields={columns
+                    .filter(c => c.mappedBy !== 'Index')
+                    .map(c => {
+                        return {
+                            ...c.formElement,
+                            fieldName: c.header,
+                            dataType: c.dataType,
+                            mappedBy: c.mappedBy
+                        }
+                    })}
+            />
         }
-    ];
+    ] : [];
     if(otherActions.length > 0)
         actions.push(...otherActions);
+
+    const handleOnClickRowAction = (action, obj) => {
+        if(action === 'edit')
+            startEditing(obj)
+        else if(action === 'delete') 
+            deleteRow(obj);        
+    };
 
     return (
         <MainFrame>
@@ -94,7 +120,6 @@ const GenericCRUD = props => {
                     <CustomTableHeader 
                         columns={cols} 
                         filterHandler={columnFilterHandler}
-                        dataFilters={filters}
                         disableFilters={disableColumnFilters}
                         ordersHandler={columnOrdersHandler}
                     />
@@ -128,7 +153,7 @@ const GenericCRUD = props => {
                                             <IconButton 
                                                 
                                                 style={{padding: '5px'}}
-                                                onClick={() => deleteRow(obj)}
+                                                onClick={handleOnClickRowAction.bind(this, 'delete', obj)}
                                             >
                                                 <DeleteIcon color='primary'/>
                                             </IconButton>
@@ -138,7 +163,7 @@ const GenericCRUD = props => {
                                         <InfoTooltip title='Modificar'>
                                             <IconButton
                                                 style={{padding: '5px'}}
-                                                onClick={() => startEditing(obj)}
+                                                onClick={handleOnClickRowAction.bind(this, 'edit', obj)}
                                             >
                                                 <EditIcon color='primary'/>
                                             </IconButton>
@@ -159,30 +184,6 @@ const GenericCRUD = props => {
                 />
                 
             </Paper>
-            <GenericForm 
-                titulo={titulo}
-                open={winState} 
-                close={closeWinHandler} 
-                onSave={handleSave}
-                edit={editing}
-                fields={columns
-                    .filter(c => c.mappedBy !== 'Index')
-                    .map(c => {
-                        return {
-                            ...c.formElement,
-                            fieldName: c.header,
-                            dataType: c.dataType,
-                            mappedBy: c.mappedBy
-                        }
-                    })}
-            />
-
-            {/*<EditCategoria 
-                open={winState} 
-                close={closeWinHandler} 
-                onSave={handleSave}
-                edit={editing}
-            />*/}
         </MainFrame>
     );
 }
@@ -195,4 +196,4 @@ GenericCRUD.propTypes = {
     }))
 }
 
-export default GenericCRUD;
+export default React.memo(GenericCRUD);

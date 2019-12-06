@@ -9,11 +9,10 @@ console.log(props);
     const {
         open,
         close,
-        onSave,
+        onAccept,
         fields,
         edit,
-        titulo,
-        url
+        titulo
     } = props;
 
     const initialFormState = fields
@@ -66,16 +65,16 @@ console.log(props);
         });
     }
 
-    const handleSave = () => {
-        const objToSave = fields.reduce((acumulator, field) => {
+    const handleAccept = () => {
+        const objToAccept = fields.reduce((acumulator, field) => {
             acumulator[field.mappedBy] = formState[field.mappedBy].value;
             return acumulator;
         }, {});
 
         if(edit){
-            objToSave.id = edit.id;
+            objToAccept.id = edit.id;
         }
-        onSave(objToSave);
+        onAccept(objToAccept);
         close();
     }
 
@@ -83,7 +82,7 @@ console.log(props);
         <GenericFormView 
             open={open}
             close={close}
-            handleSave={handleSave}
+            handleAccept={handleAccept}
             fields={fields}
             editing={edit ? true: false}
             formState={formState}

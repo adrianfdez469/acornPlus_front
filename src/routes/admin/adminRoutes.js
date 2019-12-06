@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import { Route } from 'react-router-dom';
 import routesFactory from './adminRoutesFactory';
 
@@ -17,10 +17,12 @@ const AdminRoutes = props => {
     const routes = actions.map(act => {
         return (
             <div style={inlineStyles.separator} key={act.id}>
-                <Route 
-                    path={routesFactory(act.nameid).path} 
-                    render={() => routesFactory(act.nameid).getCmp()} 
-                />
+                <Suspense fallback='Cargando...'>
+                    <Route 
+                        path={routesFactory(act.nameid).path} 
+                        render={() => routesFactory(act.nameid).getCmp()} 
+                    />
+                </Suspense>                
             </div>
         );
     });

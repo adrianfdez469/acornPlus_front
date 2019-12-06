@@ -106,4 +106,4 @@ const NomCategoria = props => {
 
 }
 
-export default NomCategoria;
+export default React.memo(NomCategoria);

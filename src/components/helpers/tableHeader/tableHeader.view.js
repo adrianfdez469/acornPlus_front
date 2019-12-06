@@ -5,8 +5,9 @@ import {
     TableRow
 } from '@material-ui/core';
 
-import propTypesUtils from '../_propTypesUtils';
+//import propTypesUtils from '../_propTypesUtils';
 import TableColumn from './tableColumn';
+import uiDataTypes from '../uiDataTypes';
 
 const TableHeader = props => {
     
@@ -32,7 +33,15 @@ const TableHeader = props => {
 }
 
 TableHeader.propTypes = {
-    columns: propTypesUtils.isArrayNotEmpty,
+    //columns: propTypesUtils.isArrayNotEmpty,
+    columns: PropTypes.arrayOf(PropTypes.shape({
+        mappedBy: PropTypes.string.isRequired,
+        dataType: PropTypes.oneOf(Object.keys(uiDataTypes)).isRequired,
+        sorteable: PropTypes.bool.isRequired,
+        header: PropTypes.string.isRequired,
+        filterable: PropTypes.bool.isRequired,
+        props: PropTypes.object
+    })).isRequired,
     filterHandler: PropTypes.func.isRequired,
     disableFilters: PropTypes.bool.isRequired,
     ordersHandler: PropTypes.func.isRequired

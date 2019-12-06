@@ -30,7 +30,7 @@ const TableToolbar = props => {
 TableToolbar.propTypes = {
     title: PropTypes.string.isRequired,
     searchAction: PropTypes.func.isRequired,
-    actionsList: propTypesUtils.isArrayNotEmpty,
+    actionsList: PropTypes.array.isRequired,
 }
 
 export default withStyles(styles)(TableToolbar);

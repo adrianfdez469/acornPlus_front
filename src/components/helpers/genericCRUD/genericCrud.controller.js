@@ -72,40 +72,41 @@ const GenericCRUD = props => {
     const [filters, setFilters] = useState({});
     const [orders, setOrders] = useState([]);
     
-    const [reload, setReload] = useState(false);
+    const [reload, setReload] = useState(true);
     const [clearMainFilter, setClearMainFilter] = useState(false);
     const [disableColumnFilters, setDisableColumnsFilters] = useState(false);
     const [editing, setEditing] = useState(null);
 
     
-    useEffect(() => {
-        
-        axios.post(`${relativePath}/get`, {
-            pagination: pagination,
-            filters: filters,
-            orders: orders
-        },{
-            headers: {
-                Authorization: 'Bearer ' + authContext.token
-            }
-        })
-        .then(resp => {
-            if(resp.status === 200){
-                setRows({
-                    data: resp.data.rows,
-                    total: resp.data.count
-                });
-            }else{
-                showMessage('error', 'Ha ocurrido un error');
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            if(err.response)
-                showError(err.response.status, idioma.concepto, err.response.data.message);
-            else
-                showMessage('error', 'Ocurrió un error interno');
-        })
+    useEffect(() => {        
+            axios.post(`${relativePath}/get`, {
+                pagination: pagination,
+                filters: filters,
+                orders: orders
+            },{
+                headers: {
+                    Authorization: 'Bearer ' + authContext.token
+                }
+            })
+            .then(resp => {
+                if(resp.status === 200){
+                    setRows({
+                        data: resp.data.rows,
+                        total: resp.data.count
+                    });
+                }else{
+                    showMessage('error', 'Ha ocurrido un error');
+                }
+                setReload(false);
+            })
+            .catch(err => {
+                console.log(err);
+                if(err.response)
+                    showError(err.response.status, idioma.concepto, err.response.data.message);
+                else
+                    showMessage('error', 'Ocurrió un error interno');
+                setReload(false);
+            })
     }, [pagination, filters, reload, orders]);
 
     const openWinHandler = () => setWinState(true);
@@ -259,7 +260,7 @@ const GenericCRUD = props => {
             mainFilterHandler={mainFilterHandler}
             clearMainFilter={clearMainFilter}
             columnFilterHandler={columnFilterHandler}
-            filters={filters}
+            //filters={filters}
             disableColumnFilters={disableColumnFilters}
             columnOrdersHandler={columnOrdersHandler}
             rows={rows}
@@ -296,7 +297,7 @@ GenericCRUD.propTypes = {
                 PropTypes.bool
             ]),
             customProps: PropTypes.object,
-            validator: PropTypes.func            
+            validator: PropTypes.func          
         }),
         render: PropTypes.func
     })).isRequired,
@@ -304,7 +305,8 @@ GenericCRUD.propTypes = {
         concepto: PropTypes.string.isRequired,
         titulo: PropTypes.string.isRequired, 
     }).isRequired,
-    mainSearchForColumn: PropTypes.string.isRequired
+    mainSearchForColumn: PropTypes.string.isRequired,
+    defaultActions: PropTypes.bool
 }
 
-export default GenericCRUD;
+export default React.memo(GenericCRUD);

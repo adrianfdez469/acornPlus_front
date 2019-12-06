@@ -13,63 +13,49 @@ const AsyncNomProveedor = React.lazy(() => import('../../containers/nomencladore
 const _NOM_USUARIO_ = {
     path: '/admin/security/usuario',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">
-                    <AsyncNomUsuario />
-                </Suspense>
+        return <AsyncNomUsuario />
     }
 }
 
 const _NOM_CATEGORIA_ = {
     path: '/admin/nom/categoria',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">
-                    <AsyncNomCategoria />
-                </Suspense>
+        return <AsyncNomCategoria />
     }
 }
 
 const _NOM_MONEDA_ = {
     path: '/admin/nom/moneda',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">
-                    <AsyncNomMoneda />
-                </Suspense>
+        return <AsyncNomMoneda />
     }
 };
 
 const _NOM_ALMACEN_ = {
     path: '/admin/nom/almacen',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">                    
-                    <AsyncNomAlmacen />
-                </Suspense>
+        return <AsyncNomAlmacen />
     }
 }
 
 const _NOM_TIPO_DESCUENTO_ = {
     path: '/admin/nom/tipodescuento',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">                    
-                    <AsyncNomTipodescuento />
-                </Suspense>
+        return <AsyncNomTipodescuento />
     }
 }
 
 const _NOM_UNIDAD_MEDIDA_ = {
     path: '/admin/nom/unidadmedida',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">                    
-                    <AsyncNomUnidadmedida />
-                </Suspense>
+        return <AsyncNomUnidadmedida />
     }
 }
 
 const _NOM_PROVEEDOR_ = {
     path: '/admin/nom/proveedor',
     getCmp: () => {
-        return  <Suspense fallback="Cargando...">                    
-                    <AsyncNomProveedor />
-                </Suspense>
+        return <AsyncNomProveedor />
     }
 }
 

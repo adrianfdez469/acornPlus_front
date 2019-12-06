@@ -1,2 +1,2 @@
-import Usuario from './usuario.view';
+import Usuario from './usuario.controller';
 export default Usuario;

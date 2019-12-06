@@ -13,6 +13,7 @@ const Actions = props => {
                 clickHandler={act.clickHandler}
                 icon={act.icon}
                 description={act.description}
+                cmp={act.cmp}
                 {...props}
             />)
         })
