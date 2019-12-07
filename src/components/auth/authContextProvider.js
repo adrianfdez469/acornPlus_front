@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useMemo, useCallback} from 'react';
 
 import authReducer from './authReducers';
 import AuthContext from './authContext';
@@ -11,8 +11,15 @@ const authInitialState = {
 
 const AuthContextProvider = props => {
     const [state, dispatch] = useReducer(authReducer, authInitialState);
+
+    const estado = useMemo(() => {
+        return state;
+    });
+
+    const setState = useCallback(dispatch, []);
+
     return (
-        <AuthContext.Provider value={[state, dispatch]}>
+        <AuthContext.Provider value={[estado, setState]}>
             {props.children}
         </AuthContext.Provider>
     );

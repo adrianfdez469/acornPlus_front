@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 
 import axios from '../../../axios';
@@ -41,7 +41,9 @@ import {FormElementsType} from '../formElements'
  */
 
 const GenericCRUD = props => {
-
+    
+    console.log('RENDERING GENERIC CRUD CONTROLLER');
+    
     const {
         relativePath,
         tableColumns,
@@ -49,10 +51,11 @@ const GenericCRUD = props => {
         mainSearchForColumn
     } = props;
     
-    const [authContext] = useContext(AuthContext);
-    const showMessage = useMessage();
-    const showError = useErrors();
-    const showAlert = useAlerts();
+    const [authContext] =  useContext(AuthContext);    
+    
+    const showMessage = useCallback(useMessage(),[]);
+    const showError = useCallback(useErrors(),[]);
+    const showAlert = useCallback(useAlerts(),[]);
     
     const [winState, setWinState] = useState(false);
     const [rows, setRows] = useState({data: [],total: 0});
@@ -72,13 +75,15 @@ const GenericCRUD = props => {
     const [filters, setFilters] = useState({});
     const [orders, setOrders] = useState([]);
     
-    const [reload, setReload] = useState(true);
+    const [reload, setReload] = useState(false);
     const [clearMainFilter, setClearMainFilter] = useState(false);
     const [disableColumnFilters, setDisableColumnsFilters] = useState(false);
     const [editing, setEditing] = useState(null);
 
     
-    useEffect(() => {        
+    useEffect(() => {      
+        console.log('CARGANDO TABLA');
+                       
             axios.post(`${relativePath}/get`, {
                 pagination: pagination,
                 filters: filters,
@@ -96,25 +101,24 @@ const GenericCRUD = props => {
                     });
                 }else{
                     showMessage('error', 'Ha ocurrido un error');
-                }
-                setReload(false);
+                }                
             })
             .catch(err => {
                 console.log(err);
                 if(err.response)
                     showError(err.response.status, idioma.concepto, err.response.data.message);
                 else
-                    showMessage('error', 'Ocurrió un error interno');
-                setReload(false);
-            })
-    }, [pagination, filters, reload, orders]);
+                    showMessage('error', 'Ocurrió un error interno');                
+            });
+    }, [pagination, filters, reload, orders, showMessage, showError, relativePath, 
+        authContext.token, idioma.concepto]);
 
-    const openWinHandler = () => setWinState(true);
-    const closeWinHandler = () => {
+    const openWinHandler = useCallback(() => setWinState(true), []);
+    const closeWinHandler = useCallback(() => {
         setWinState(false);
         setEditing(null);
-    };
-    const changingLimit = number => {
+    }, []);
+    const changingLimit = useCallback(number => {
         setPagination(old => {
             return {
                 ...old,
@@ -123,23 +127,22 @@ const GenericCRUD = props => {
                 start: 0
             };
         })
-    }
-    const changingPage = page => {
+    }, []);
+    const changingPage = useCallback(page => {
         setPagination(old => {
             return {
                 ...old,
                 page: page,
                 start: page * old.limit
             }
-        });
-        
-    }
+        });        
+    },[]);
 
-    const handleSave = data => {
+    const handleSave = useCallback(data => {
         if(editing === null){
             axios.post(`${relativePath}/add`, data,{
                 headers: {
-                    Authorization: 'Bearer ' + authContext.token
+                    Authorization: 'Bearer ' + authContext.token                    
                 } 
             })
             .then(resp => {
@@ -179,9 +182,11 @@ const GenericCRUD = props => {
                     showMessage('error', 'Ocurrió un error interno');
             });
         }
-    }
+    }, [editing, 
+        authContext.token,         
+        idioma.concepto, relativePath, showError, showMessage]);
     
-    const mainFilterHandler = text => {
+    const mainFilterHandler = useCallback(text => {
         setDisableColumnsFilters(true);
         setClearMainFilter(false);
 
@@ -190,9 +195,9 @@ const GenericCRUD = props => {
                 [mainSearchForColumn]: text
             };
         })
-    }
+    }, [mainSearchForColumn]);
 
-    const columnFilterHandler = (column, value) => {
+    const columnFilterHandler = useCallback((column, value) => {
         setClearMainFilter(true);
         setDisableColumnsFilters(false);
         setFilters(old => {
@@ -201,25 +206,23 @@ const GenericCRUD = props => {
                 [column]: value
             };
         })
-    }
+    },[]);
 
-    const columnOrdersHandler = (column, order) => {
-        
+    const columnOrdersHandler = useCallback((column, order) => {        
         setOrders(oldOrdersArray => {
             const newOrderArray = [{column: column, order: order}].concat(...oldOrdersArray.filter(c => c.column !== column));
             return newOrderArray
         });
-    }
+    },[]);
 
-    const deleteRow = obj => {
-
+    const deleteRow = useCallback(obj => {
         const eliminar = () => {
             axios.post(`${relativePath}/delete`, {
                 id: obj.id
             },
             {
                 headers: {
-                    Authorization: 'Bearer ' + authContext.token 
+                    Authorization: 'Bearer ' + authContext.token                    
                 }
             })
             .then(resp => {
@@ -242,14 +245,13 @@ const GenericCRUD = props => {
 
         showAlert(`¿Está seguro que desea eliminar ${idioma.concepto.toLowerCase()}?`,'', eliminar);
         
-    }
+    }, [authContext.token, idioma, relativePath, showAlert, showError, showMessage]);
     
     
-    const startEditing = obj => {
-        
+    const startEditing = useCallback(obj => {        
         setEditing(obj);
         setWinState(true);
-    }
+    },[]);
 
     return (
         <GenericCRUDView 
@@ -260,7 +262,6 @@ const GenericCRUD = props => {
             mainFilterHandler={mainFilterHandler}
             clearMainFilter={clearMainFilter}
             columnFilterHandler={columnFilterHandler}
-            //filters={filters}
             disableColumnFilters={disableColumnFilters}
             columnOrdersHandler={columnOrdersHandler}
             rows={rows}
@@ -305,8 +306,7 @@ GenericCRUD.propTypes = {
         concepto: PropTypes.string.isRequired,
         titulo: PropTypes.string.isRequired, 
     }).isRequired,
-    mainSearchForColumn: PropTypes.string.isRequired,
-    defaultActions: PropTypes.bool
+    mainSearchForColumn: PropTypes.string.isRequired    
 }
 
 export default React.memo(GenericCRUD);

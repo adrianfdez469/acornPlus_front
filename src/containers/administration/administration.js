@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 
 import axios from '../../axios';
 import Login from '../../components/auth/Login';
@@ -15,14 +15,21 @@ import useMessage from '../../components/UI/Snackbar/useMessage';
 import useError from '../../components/helpers/handleServerResponses/useHandleResp';
 
 const Admin = props => {
-
+    console.log('RENDER ADMINISTRATION.JS');
+    
     const [menuOpen, setMenuOpen] = useState(false);
     const [authState, dispatch] = useContext(AuthContext);
+    const dispatchAuth = useCallback(dispatch,[]);
+
     const [loading, setLoading] = useState(true);
-    const showMessage = useMessage();
-    const handleError = useError();
+    const showMessage = useCallback (useMessage(),[]);
+    const handleError = useCallback (useError(),[]);
 
     useEffect( () => {
+        console.log('CARGANDO ACCIONES');
+        
+        setLoading(true);
+
         const token = localStorage.getItem('token');
         const expDateStorage = localStorage.getItem('expDate');
 
@@ -40,7 +47,7 @@ const Admin = props => {
                 })
                     .then(resp => {
                         if(resp.status === 200){
-                            dispatch({
+                            dispatchAuth({
                                 type: authActions.LOGIN_SUCCES, 
                                 payload: {
                                     username: resp.data.user.username,
@@ -52,7 +59,7 @@ const Admin = props => {
                             setLoading(false);
                         }else{
                             showMessage('error', 'Ha ocurrido un error');
-                            dispatch({
+                            dispatchAuth({
                                 type: authActions.LOGIN_SUCCES, 
                                 payload: {
                                     username: '',
@@ -75,14 +82,15 @@ const Admin = props => {
             }else{
                 showMessage('error', 'Ha caducado su tiempo en el sistema.')
                 setLoading(false);
-                dispatch({type: authActions.LOGOUT_SUCCES});    
+                dispatchAuth({type: authActions.LOGOUT_SUCCES});    
             }
         }else{
             showMessage('error', 'Necesita introducir sus credencales.')
             setLoading(false);
-            dispatch({type: authActions.LOGOUT_SUCCES});
+            dispatchAuth({type: authActions.LOGOUT_SUCCES});
         }
-    }, [authState.token, dispatch]);
+    }, [ dispatchAuth, handleError, showMessage]);
+    
 
     
     const elements = (authState && authState.actions) ? 

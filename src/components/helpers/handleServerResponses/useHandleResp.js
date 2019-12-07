@@ -1,4 +1,4 @@
-import { useContext} from 'react';
+import { useContext, useCallback} from 'react';
 import useMessage from '../../UI/Snackbar/useMessage';
 import authActions from '../../auth/authActions';
 import AuthContext from '../../auth/authContext';
@@ -36,9 +36,9 @@ const errorsResp = {
 const useHandleResp = () => {
     
     const mostrarMensaje = useMessage();
-    const dispatch = useContext(AuthContext)[1];
+    const dispatch = useCallback(useContext(AuthContext)[1], []);
     
-    return (status, concepto = 'Elemento', details) => {
+    return useCallback((status, concepto = 'Elemento', details) => {
         const resp = errorsResp[status];
         if(resp){
             const mensaje = resp.mensaje(concepto || 'Elemento');
@@ -48,7 +48,7 @@ const useHandleResp = () => {
             }
             mostrarMensaje('error', mensaje, detalles);
         }
-    }
+    }, [dispatch, mostrarMensaje])
 }
 
 export default useHandleResp;

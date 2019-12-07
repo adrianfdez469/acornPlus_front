@@ -46,28 +46,34 @@ const GenericCRUD = props => {
         closeWinHandler,
         handleSave,
         editing,
-        defaultActions = true
+        defaultSaveActions = true,
+        defaultDeleteAction = true,
+        otherRowActions = []
     } = props;
     
     const cols = [...columns];
 
-    cols[cols.length] = {
-        header: '',
-        dataType: uiDataTypes.Icon,
-        mappedBy: '',
-        sorteable: false,
-        filterable: false
-    };
-    cols[cols.length+1] = {
-        header: '',
-        dataType: uiDataTypes.Icon,
-        mappedBy: '',
-        sorteable: false,
-        filterable: false
-    };
+    if(defaultDeleteAction){
+        cols[cols.length] = {
+            header: '',
+            dataType: uiDataTypes.Icon,
+            mappedBy: '',
+            sorteable: false,
+            filterable: false
+        };
+    }
     
+    if(defaultSaveActions) {
+        cols[cols.length+1] = {
+            header: '',
+            dataType: uiDataTypes.Icon,
+            mappedBy: '',
+            sorteable: false,
+            filterable: false
+        };
+    }
 
-    const actions = (defaultActions) ? [
+    const actions = defaultSaveActions ? [
         {
             clickHandler: openWinHandler,
             icon: <AddIcon />,
@@ -94,6 +100,18 @@ const GenericCRUD = props => {
     ] : [];
     if(otherActions.length > 0)
         actions.push(...otherActions);
+    
+    if(otherRowActions.length > 0){
+        otherRowActions.forEach((element, index) => {
+            cols[cols.length+index+1] = {
+                header: '',
+                dataType: uiDataTypes.Icon,
+                mappedBy: '',
+                sorteable: false,
+                filterable: false
+            };
+        });        
+    }
 
     const handleOnClickRowAction = (action, obj) => {
         if(action === 'edit')
@@ -148,27 +166,48 @@ const GenericCRUD = props => {
                                             return null;
                                         }
                                     })}
-                                    <TableCell padding='checkbox'>
-                                        <InfoTooltip title='Eliminar'>
-                                            <IconButton 
-                                                
-                                                style={{padding: '5px'}}
-                                                onClick={handleOnClickRowAction.bind(this, 'delete', obj)}
-                                            >
-                                                <DeleteIcon color='primary'/>
-                                            </IconButton>
-                                        </InfoTooltip>
-                                    </TableCell>
-                                    <TableCell padding='checkbox'>
-                                        <InfoTooltip title='Modificar'>
-                                            <IconButton
-                                                style={{padding: '5px'}}
-                                                onClick={handleOnClickRowAction.bind(this, 'edit', obj)}
-                                            >
-                                                <EditIcon color='primary'/>
-                                            </IconButton>
-                                        </InfoTooltip>
-                                    </TableCell>
+                                    {
+                                        defaultDeleteAction &&  
+                                        <TableCell padding='checkbox'>
+                                            <InfoTooltip title='Eliminar'>
+                                                <IconButton 
+                                                    
+                                                    style={{padding: '5px'}}
+                                                    onClick={handleOnClickRowAction.bind(this, 'delete', obj)}
+                                                >
+                                                    <DeleteIcon color='primary'/>
+                                                </IconButton>
+                                            </InfoTooltip>
+                                        </TableCell>
+                                    }
+                                    {
+                                        defaultSaveActions &&                                 
+                                        <TableCell padding='checkbox'>
+                                            <InfoTooltip title='Modificar'>
+                                                <IconButton
+                                                    style={{padding: '5px'}}
+                                                    onClick={handleOnClickRowAction.bind(this, 'edit', obj)}
+                                                >
+                                                    <EditIcon color='primary'/>
+                                                </IconButton>
+                                            </InfoTooltip>
+                                        </TableCell>
+                                    }
+                                    {
+                                        otherRowActions.map((act,index) => {
+                                            return <TableCell padding='checkbox' key={index}>
+                                            <InfoTooltip title={act.title}>
+                                                <IconButton
+                                                    style={{padding: '5px'}}
+                                                    onClick={act.onClick.bind(this, obj)}
+                                                >
+                                                    {act.icon}
+                                                </IconButton>
+                                            </InfoTooltip>
+                                        </TableCell>
+ 
+                                        })
+                                    }
                                 </TableRow>
                             );
                         })}
@@ -193,6 +232,13 @@ GenericCRUD.propTypes = {
         clickHandler: PropTypes.func.isRequired,
         icon: PropTypes.element.isRequired,
         description: PropTypes.string.isRequired         
+    })),
+    defaultSaveActions: PropTypes.bool,
+    defaultDeleteAction: PropTypes.bool,
+    otherRowActions: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired,
+        icon: PropTypes.element.isRequired
     }))
 }
 

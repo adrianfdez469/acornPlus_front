@@ -71,14 +71,25 @@ const UsuarioView = props => {
         />
     }];
 
+    const rowActions = [{
+        title: 'Asd',
+        onClick: objRow => {alert('click en el icono')},
+        icon: <div>X</div>
+    }, {
+        title: 'JDF',
+        onClick: objRow => {alert('click en el icono')},
+        icon: <div>Y</div>
+    }];
+
     return (
         <GenericCRUD
             relativePath={relativePath}
             idioma={idioma}
             tableColumns={columns}
             mainSearchForColumn='nombre'
-            defaultActions={false}
+            defaultSaveActions={false}
             otherActions={otherActions}
+            otherRowActions={rowActions}
         >
 
         </GenericCRUD>

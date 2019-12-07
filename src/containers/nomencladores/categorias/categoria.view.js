@@ -9,18 +9,14 @@ import GenericCRUD from '../../../components/helpers/genericCRUD';
 import {FormElementsType} from '../../../components/helpers/formElements';
 import validate, {validator} from '../../../components/helpers/validations/field.validations';
 
-const useStyles = makeStyles(theme => ({
-    color: {
-        width: '30px',
-        height: '30px', 
-        borderRadius: '50%'
-    }
-}));
+const styles = {
+    width: '30px',
+    height: '30px', 
+    borderRadius: '50%'
+};
 
 const NomCategoria = props => {
-
-    const classes = useStyles();
-
+    
     const columns = [
         {
             header: 'Nombre',
@@ -82,7 +78,7 @@ const NomCategoria = props => {
             },
             render: (obj,col) => {
                 return <div> 
-                    <div className={classes.color} style={{backgroundColor: `${obj[col.mappedBy]}`}}/>
+                    <div style={{backgroundColor: `${obj[col.mappedBy]}`, ...styles}}/>
                 </div>
             }
         }
@@ -92,16 +88,16 @@ const NomCategoria = props => {
         concepto: 'La categoría',
         titulo: 'Categoría'
     };
-
+    console.log('RENDER CATEGORIA vies.js');
+    
     return (
         <GenericCRUD
             relativePath={relativePath}
             idioma={idioma}
             tableColumns={columns}
             mainSearchForColumn='nombre'
-        >
-
-        </GenericCRUD>
+            defaultSaveActions={false}
+        />
     );
 
 }
