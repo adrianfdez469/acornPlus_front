@@ -86,7 +86,7 @@ const UsuarioView = props => {
             relativePath={relativePath}
             idioma={idioma}
             tableColumns={columns}
-            mainSearchForColumn='nombre'
+            mainSearchForColumn='name'
             defaultSaveActions={false}
             otherActions={otherActions}
             otherRowActions={rowActions}

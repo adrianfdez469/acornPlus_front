@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 
 import axios from '../../axios';
 import Login from '../../components/auth/Login';
@@ -25,11 +25,8 @@ const Admin = props => {
     const showMessage = useCallback (useMessage(),[]);
     const handleError = useCallback (useError(),[]);
 
-    useEffect( () => {
-        console.log('CARGANDO ACCIONES');
+    useEffect( () => {        
         
-        setLoading(true);
-
         const token = localStorage.getItem('token');
         const expDateStorage = localStorage.getItem('expDate');
 
@@ -38,15 +35,15 @@ const Admin = props => {
             const expDate = new Date(expDateStorage);
         
             if(expDate.getTime() > currentDate.getTime()){
-
-                //Pedir las acciones permitidas del usuario
+                
+                //Pedir las acciones permitidas del usuario                
                 axios.get('/security/auth/actions', {
                     headers: {
                             Authorization: 'Bearer ' + token
                     }
                 })
                     .then(resp => {
-                        if(resp.status === 200){
+                        if(resp.status === 200){                                    
                             dispatchAuth({
                                 type: authActions.LOGIN_SUCCES, 
                                 payload: {
@@ -79,6 +76,7 @@ const Admin = props => {
                             showMessage('error', 'Ha ocurrido un error interno');
                         setLoading(false);
                     });
+
             }else{
                 showMessage('error', 'Ha caducado su tiempo en el sistema.')
                 setLoading(false);
@@ -92,12 +90,18 @@ const Admin = props => {
     }, [ dispatchAuth, handleError, showMessage]);
     
 
+    const opentMenu = useCallback(() => {
+        setMenuOpen(true);
+    }, []);
+    const closeMenu = useCallback(() => {
+        setMenuOpen(false);
+    }, []);
     
     const elements = (authState && authState.actions) ? 
     <>
-        <Header openMenu={setMenuOpen.bind(this, true)} />
-        <SideMenu state={menuOpen} close={setMenuOpen.bind(this, false)}/>
-        <AdminRoutes actions={authState.actions} />
+        <Header openMenu={opentMenu} />
+        <SideMenu state={menuOpen} close={closeMenu} authState={authState} dispatchAuth={dispatchAuth}/>        
+        <AdminRoutes actions={authState.actions}/>
     </> : <Login />
         
     const view = (loading) ? <Progress /> : elements ;

@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useMemo} from 'react';
 import { Route } from 'react-router-dom';
 import routesFactory from './adminRoutesFactory';
 
@@ -11,21 +11,26 @@ const inlineStyles = {
 };
 
 const AdminRoutes = props => {
-
-    const {actions} = props;
-
-    const routes = actions.map(act => {
-        return (
-            <div style={inlineStyles.separator} key={act.id}>
-                <Suspense fallback='Cargando...'>
-                    <Route 
-                        path={routesFactory(act.nameid).path} 
-                        render={() => routesFactory(act.nameid).getCmp()} 
-                    />
-                </Suspense>                
-            </div>
-        );
-    });
+    
+    const {
+        actions
+    } = props;
+   
+    const routes = actions
+                .filter(act => act.parentid !== null)
+                .map(act => {
+                    return (
+                        <div style={inlineStyles.separator} key={act.id}>
+                            <Suspense fallback='Cargando...'>
+                                <Route 
+                                    path={routesFactory(act.nameid).path} 
+                                    render={() => routesFactory(act.nameid).getCmp()} 
+                                />
+                            </Suspense>                
+                        </div>
+                    );
+            });
+       
     return routes;
 }
 

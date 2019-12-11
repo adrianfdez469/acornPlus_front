@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-    makeStyles
-} from '@material-ui/core';
 
 import uiDataTypes from '../../../components/helpers/uiDataTypes';
 import GenericCRUD from '../../../components/helpers/genericCRUD';
@@ -17,6 +14,9 @@ const styles = {
 
 const NomCategoria = props => {
     
+    console.log('RENDERING CATEGORIA VIEW.JS');
+    
+
     const columns = [
         {
             header: 'Nombre',
@@ -88,7 +88,6 @@ const NomCategoria = props => {
         concepto: 'La categoría',
         titulo: 'Categoría'
     };
-    console.log('RENDER CATEGORIA vies.js');
     
     return (
         <GenericCRUD
@@ -96,7 +95,6 @@ const NomCategoria = props => {
             idioma={idioma}
             tableColumns={columns}
             mainSearchForColumn='nombre'
-            defaultSaveActions={false}
         />
     );
 

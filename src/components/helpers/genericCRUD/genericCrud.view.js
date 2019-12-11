@@ -26,6 +26,9 @@ import GenericForm from './genericForm';
 
 const GenericCRUD = props => {
 
+    console.log('RENDERING GENERIC CREUD VIEW');
+    
+
     const {
         titulo,
         columns,

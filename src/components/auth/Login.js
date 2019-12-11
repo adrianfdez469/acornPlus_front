@@ -23,6 +23,9 @@ import useError from '../helpers/handleServerResponses/useHandleResp';
 
 const Login = props => {
 
+    console.log('RENDERING LOGIN');
+    
+
     const dispatch = useContext(AuthContext)[1];
     const [visibility, setVisibility] = useState(false);
     const userInputRef = useRef();

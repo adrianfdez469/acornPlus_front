@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import GenericFormView from './genericForm.view';
 
 const GenericForm = props => {
-console.log(props);
+
+    console.log('REDERING FORM CONTROLLER');
+    
 
     const {
         open,

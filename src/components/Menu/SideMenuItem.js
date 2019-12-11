@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -28,6 +28,7 @@ const IconFactory = props => {
     }
 }
 
+
 const useStyles = makeStyles(theme => ({
     nested: {
       paddingLeft: theme.spacing(4),
@@ -37,15 +38,37 @@ const useStyles = makeStyles(theme => ({
 
 const SideMenuItem = props => {
 
+    console.log('RENDERING SIDE MENU ITEM');
+    
+
     const { action, actions, close } = props;
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
     const accionesHijas = actions.filter(act => act.parentid === action.id);
     const hasChild = accionesHijas.length > 0;
-    const handleVisibility = () => {
+    const handleVisibility = useCallback(() => {
         setOpen(state => !state);
-    }
+    }, []);
+
+    const subMenu = useMemo(() => {
+        return actions
+            .filter(act => act.parentid === action.id)
+            .map(act => {
+                return (
+                    <Link to={routesFactory(act.nameid).path} style={{textDecoration: 'none'}} key={act.id} >
+                        <ListItem button className={classes.nested} onClick={close}>
+                            <ListItemIcon ><span></span></ListItemIcon>
+                            <ListItemText>
+                                <Typography color='textPrimary'>
+                                    {act.name}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    </Link>
+                );
+            })
+    },[actions, action.id, close, classes.nested]);
 
     return (
         <>
@@ -61,23 +84,9 @@ const SideMenuItem = props => {
                     {hasChild ? open ? <ExpandLessIcon /> : <ExpandMoreIcon/> :  null}
             </ListItem>
             {hasChild ?
-            <Collapse in={open} timeout='auto' unmountOnExit>
+            <Collapse in={open} timeout='auto' /*unmountOnExit*/>            
                 <List>
-                {actions
-                    .filter(act => act.parentid === action.id)
-                    .map(act => {
-                        return (
-                        <Link to={routesFactory(act.nameid).path} style={{textDecoration: 'none'}} key={act.id} >
-                            <ListItem button className={classes.nested} onClick={close}>
-                                <ListItemIcon ><span></span></ListItemIcon>
-                                <ListItemText>
-                                    <Typography color='textPrimary'>
-                                        {act.name}
-                                    </Typography>
-                                </ListItemText>
-                            </ListItem>
-                        </Link>);
-                    })}
+                    {subMenu}
                 </List> 
             </Collapse>
             : null }
@@ -89,4 +98,4 @@ SideMenuItem.propTypes = {
     action: PropTypes.object.isRequired
 };
 
-export default SideMenuItem;
+export default React.memo(SideMenuItem);

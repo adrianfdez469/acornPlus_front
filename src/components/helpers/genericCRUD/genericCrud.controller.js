@@ -61,7 +61,7 @@ const GenericCRUD = props => {
     const [rows, setRows] = useState({data: [],total: 0});
     const [pagination, setPagination] = useState({start: 0, limit: 10, page: 0});
 
-    const columns = [
+    /*const columns = [
         {
             header: 'Nro',
             dataType: uiDataTypes.Text,
@@ -70,7 +70,16 @@ const GenericCRUD = props => {
             filterable: false
         }
     ];
-    columns.push(...tableColumns);
+    columns.push(...tableColumns);*/
+    const columns = useMemo(() => {
+        return [ {
+            header: 'Nro',
+            dataType: uiDataTypes.Text,
+            mappedBy: 'Index',
+            sorteable: false,
+            filterable: false
+        }, ...tableColumns];
+    }, [tableColumns]);
     
     const [filters, setFilters] = useState({});
     const [orders, setOrders] = useState([]);

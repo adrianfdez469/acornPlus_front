@@ -10,6 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu'
 import NotificationIcon from '@material-ui/icons/Notifications'
 
 const Header = ({openMenu}) => {
+
+    console.log('RENDERING HEADER');
+
     return (
         <AppBar position="sticky">
             <Toolbar>
